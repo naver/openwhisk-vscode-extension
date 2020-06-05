@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link href="{{nodeModulePath}}/jsoneditor/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <script src="{{nodeModulePath}}/jsoneditor/dist/jsoneditor.min.js"></script>
+    <link href="{{webviewTemplatePath}}/css/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <h2>{{title}}</h2>
+        <h3>parameters</h3>
+        <div id="paramsEditor" class="editor"></div>
+        <h3>annotations</h3>
+        <div id="annotationsEditor" class="editor"></div>
+        <div class="footer">
+            <button class="button" onclick="update()">Save</button>
+        </div>
+    </div>
+    <script>
+        const vscode = acquireVsCodeApi();
+
+        // create the editor
+        const paramsEditorContainer = document.getElementById("paramsEditor")
+        const annotationsEditorContainer = document.getElementById("annotationsEditor");
+
+        const editorOption = {
+            mode: "code",
+            indentation: 4,
+            enableSort: false,
+            enableTransform: false,
+            statusBar: false,
+        };
+
+        // initialize editor instance
+        const paramsEditor = new JSONEditor(paramsEditorContainer, editorOption);
+        const annotationsEditor = new JSONEditor(annotationsEditorContainer, editorOption);
+
+        // add event listener
+        window.addEventListener('message', event => {
+            const message = event.data;
+            if (message.command === 'setEditor') {
+                paramsEditor.set(JSON.parse(message.parameters));
+                annotationsEditor.set(JSON.parse(message.annotations));
+            }
+        })
+
+        // initialized
+        vscode.postMessage({
+            command: 'initialized',
+        })
+
+        function update() {
+            vscode.postMessage({
+                command: 'update',
+                parameters: paramsEditor.getText(),
+                annotations: annotationsEditor.getText()
+            })
+        }
+    </script>
+</body>
+</html>
