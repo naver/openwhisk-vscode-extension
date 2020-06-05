@@ -1,6 +1,6 @@
 # OpenWhisk VSCode Extension
 
-The **openwhisk-vscode-extension** is a open-source VSCode extension for [Apache OpenWhisk](https://openwhisk.apache.org/). It manages the wskdeploy manifest file and makes deployment easy. You can also create and update actions and packages in VSCode.
+An **openwhisk-vscode-extension** is an open-source VSCode extension for [Apache OpenWhisk](https://openwhisk.apache.org/). It manages the wskdeploy manifest file and makes deployment easy. You can also create and update actions and packages in VSCode.
 
 Try creating and editing your action code in the VSCode!
 
@@ -19,13 +19,13 @@ This extension finds the `.wskprops` configuration file located in the home path
 
 - Explore all entities in your endpoints/namespaces.
     - The .wskprops file is automatically registered.
-    - You can add API host manually.
+    - You can add the API host manually.
     - You can add namespace manually by API auth key.
 - Show the action code with syntax highlighting.
 - Edit the action code on the remote server.
 - Invoke the action remotely and get the activation result.
-- Show list of actions related to the sequence action.
-- Show information of the trigger and related rules.
+- Show a list of actions related to the sequence action.
+- Show information about the trigger and related rules.
 - Show activations related to the action (Same as `wsk activation list <action>`).
 - Show detailed information of the activation (Same as `wsk activation get <activation_id>`).
 - Update parameters and annotations of the action, package, and trigger.
