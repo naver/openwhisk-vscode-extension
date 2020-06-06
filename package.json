@@ -1,15 +1,21 @@
 {
 	"name": "openwhisk-vscode-extension",
-	"displayName": "Openwhisk",
-	"description": "VSCode extension for Apache OpenWhisk",
-	"version": "1.0.0-beta.1",
-	"publisher": "NAVER",
+	"displayName": "DevTools for Apache Openwhisk",
+	"description": "DevTools for Apache OpenWhisk",
+	"version": "1.0.0",
+	"publisher": "Naver",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
+	"license": "LICENSE.txt",
 	"categories": [
 		"Other"
 	],
+	"homepage": "https://github.com/naver/openwhisk-vscode-extension/blob/master/README.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/naver/openwhisk-vscode-extension.git"
+	},
 	"activationEvents": [
 		"onCommand:wskdeploy.createProject",
 		"onView:wskEntities",
@@ -32,7 +38,7 @@
 				{
 					"id": "openwhisk-explorer",
 					"title": "OpenWhisk Explorer",
-					"icon": "resource/openwhisk-logo.svg"
+					"icon": "resource/sidebar-icon.svg"
 				}
 			]
 		},

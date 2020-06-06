@@ -122,8 +122,8 @@ class WskDeployManifest extends WskDeployEntity {
             this.auth = auth;
         }
         super.iconPath = {
-            light: path.join(__filename, '..', '..', 'resource', 'openwhisk-logo.svg'),
-            dark: path.join(__filename, '..', '..', 'resource', 'openwhisk-logo.svg'),
+            light: path.join(__filename, '..', '..', 'resource', 'light', 'manifest.svg'),
+            dark: path.join(__filename, '..', '..', 'resource', 'dark', 'manifest.svg'),
         };
     }
 

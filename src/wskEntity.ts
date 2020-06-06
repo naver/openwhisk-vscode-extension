@@ -117,6 +117,10 @@ export class WskNamespace extends WskEntity {
         public readonly wskEndpoint: WskEndpoint
     ) {
         super(label, vscode.TreeItemCollapsibleState.Expanded);
+        this.iconPath = {
+            light: appRoot.resolve('resource/light/namespace.svg'),
+            dark: appRoot.resolve('resource/dark/namespace.svg'),
+        };
     }
 }
 
