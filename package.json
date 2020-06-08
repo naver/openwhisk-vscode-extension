@@ -2,8 +2,8 @@
 	"name": "openwhisk-vscode-extension",
 	"displayName": "DevTools for Apache Openwhisk",
 	"description": "DevTools for Apache OpenWhisk",
-	"version": "1.0.0",
-	"publisher": "Naver",
+	"version": "1.0.1",
+	"publisher": "NAVER",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
