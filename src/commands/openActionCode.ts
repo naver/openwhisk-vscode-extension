@@ -15,9 +15,10 @@
  */
 import * as vscode from 'vscode';
 import * as openwhisk from 'openwhisk';
-import * as appRoot from 'app-root-path';
 import * as fs from 'fs';
+import * as path from 'path';
 import { WskAction } from '../wskEntity';
+import { WEBVIEW_TEMPLATE_PATH } from '../constant/path';
 
 async function showSequenceActionInfo(sequenceAction: WskAction): Promise<void> {
     const action = await sequenceAction.client.actions.get(sequenceAction.getFullName());
@@ -30,7 +31,7 @@ async function showSequenceActionInfo(sequenceAction: WskAction): Promise<void> 
         }
     );
     panel.webview.html = await fs.promises.readFile(
-        appRoot.resolve('webview-template/sequenceActionInfo.html'),
+        path.resolve(WEBVIEW_TEMPLATE_PATH, 'sequenceActionInfo.html'),
         'utf-8'
     );
     panel.webview.postMessage({

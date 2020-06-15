@@ -1,5 +1,3 @@
-import { WSKDEPLOY_TEMPLATE_PATH } from "./path";
-
 /**
  * Copyright 2020-present NAVER Corp.
  *
@@ -15,13 +13,12 @@ import { WSKDEPLOY_TEMPLATE_PATH } from "./path";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const MinimalTemplate = {
-    root: WSKDEPLOY_TEMPLATE_PATH,
-    manifest: 'manifest.yaml',
-    sourceDir: 'src',
-    action: 'src/hello.js',
-};
-
-export const TemplatePath = {
-    Minimal: MinimalTemplate,
-};
+import * as path from 'path';
+const RESOURCE_PATH = path.resolve(__dirname, '..', 'resource');
+const WEBVIEW_TEMPLATE_PATH = path.resolve(__dirname, '..', 'webview-template');
+const WSKDEPLOY_TEMPLATE_PATH = path.resolve(__dirname, '..', 'wskdeploy-template/minimal');
+export {
+    RESOURCE_PATH,
+    WEBVIEW_TEMPLATE_PATH,
+    WSKDEPLOY_TEMPLATE_PATH,
+}

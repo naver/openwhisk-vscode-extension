@@ -16,7 +16,7 @@
 import * as vscode from 'vscode';
 import { resolve } from 'path';
 import * as fs from 'fs';
-import * as appRoot from 'app-root-path';
+import * as path from 'path';
 
 import { TemplatePath } from '../constant/template';
 import { showConfirmMessage } from '../common';
@@ -24,8 +24,8 @@ import { showConfirmMessage } from '../common';
 const template = TemplatePath.Minimal;
 
 export async function createWskdeployProject(): Promise<void> {
-    const templateAction = vscode.Uri.file(appRoot.resolve(`${template.root}/${template.action}`));
-    const templateFile = vscode.Uri.file(appRoot.resolve(`${template.root}/${template.manifest}`));
+    const templateAction = vscode.Uri.file(path.resolve(`${template.root}/${template.action}`));
+    const templateFile = vscode.Uri.file(path.resolve(`${template.root}/${template.manifest}`));
 
     if (!vscode.workspace.workspaceFolders) {
         vscode.window.showErrorMessage('Open a workspace first to create a wskdeploy project.');

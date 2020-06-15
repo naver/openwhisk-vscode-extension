@@ -17,10 +17,10 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as openwhisk from 'openwhisk';
 import * as path from 'path';
-import * as appRoot from 'app-root-path';
 
 import { WskTrigger } from '../wskEntity';
 import { convertObjToKeyVal, convertKeyValToObj } from '../common';
+import { WEBVIEW_TEMPLATE_PATH } from '../constant/path';
 
 export async function showTriggerInfo(
     trigger: WskTrigger,
@@ -37,13 +37,11 @@ export async function showTriggerInfo(
 
     const nodeModulesDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'node_modules'));
     const nodeModulePath = panel.webview.asWebviewUri(nodeModulesDiskPath);
-    const webviewTemplateDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath, 'webview-template')
-    );
+    const webviewTemplateDiskPath = vscode.Uri.file(WEBVIEW_TEMPLATE_PATH);
     const webviewTemplatePath = panel.webview.asWebviewUri(webviewTemplateDiskPath);
 
     const html = await fs.promises.readFile(
-        appRoot.resolve('webview-template/triggerInfo.html'),
+        path.resolve(WEBVIEW_TEMPLATE_PATH, 'triggerInfo.html'),
         'utf-8'
     );
 

@@ -16,7 +16,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as appRoot from 'app-root-path';
+import { WEBVIEW_TEMPLATE_PATH } from '../../constant/path';
 
 export async function openMetadatEditor(
     viewType: string,
@@ -33,14 +33,12 @@ export async function openMetadatEditor(
     const nodeModulesDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'node_modules'));
     const nodeModulePath = panel.webview.asWebviewUri(nodeModulesDiskPath);
 
-    const webviewTemplateDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath, 'webview-template')
-    );
+    const webviewTemplateDiskPath = vscode.Uri.file(WEBVIEW_TEMPLATE_PATH);
     const webviewTemplatePath = panel.webview.asWebviewUri(webviewTemplateDiskPath);
 
     // render webview html
     const html = await fs.promises.readFile(
-        appRoot.resolve('webview-template/metadataEditor.html'),
+        path.resolve(WEBVIEW_TEMPLATE_PATH, 'metadataEditor.html'),
         'utf-8'
     );
     panel.webview.html = html

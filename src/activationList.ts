@@ -41,7 +41,7 @@ export class WskActivationProvider implements vscode.TreeDataProvider<WskActivat
     }
 
     refresh(): void {
-        this._onDidChangeTreeData.fire();
+        this._onDidChangeTreeData.fire(undefined);
     }
 
     getTreeItem(element: WskActivation) {

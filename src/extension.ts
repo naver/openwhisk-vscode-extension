@@ -31,6 +31,7 @@ import * as commands from './commands';
 import { showConfirmMessage } from './common';
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
+
     const wskEntityProvider = new WskEntityProvider(context);
     const wskEntityView = vscode.window.createTreeView('wskEntities', {
         treeDataProvider: wskEntityProvider,
