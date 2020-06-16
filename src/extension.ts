@@ -87,7 +87,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     );
 
     vscode.commands.registerCommand('wskTrigger.deleteTrigger', async (trigger: WskTrigger) => {
-        commands.deleteTrigger(trigger);
+        await commands.deleteTrigger(trigger);
         wskEntityProvider.refresh();
     });
 
@@ -147,7 +147,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     vscode.commands.registerCommand(
         'wskNamespace.createPackage',
         async (namespace: WskNamespace) => {
-            commands.createPackage(namespace);
+            await commands.createPackage(namespace);
             wskEntityProvider.refresh();
         }
     );
