@@ -22,6 +22,7 @@ import { resolve } from 'path';
 import * as path from 'path';
 import openwhisk = require('openwhisk');
 import { getAuthFromUri } from '../wskContent';
+import { WEBVIEW_TEMPLATE_PATH } from '../constant/path';
 
 interface ActionInvocationMeata {
     client: openwhisk.Client;
@@ -101,7 +102,7 @@ export async function invokeAction(
 
     const metadata = await invocationMeta.client.actions.get(invocationMeta.fullname);
     const html = await fs.promises.readFile(
-        resolve(__dirname, '..', '..', 'webview-template', 'invokeAction.html'),
+        resolve(WEBVIEW_TEMPLATE_PATH, 'invokeAction.html'),
         'utf-8'
     );
 

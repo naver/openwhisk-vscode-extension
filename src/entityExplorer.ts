@@ -42,7 +42,7 @@ export class WskEntityProvider implements vscode.TreeDataProvider<WskEntity> {
     }
 
     refresh(): void {
-        this._onDidChangeTreeData.fire();
+        this._onDidChangeTreeData.fire(undefined);
     }
 
     async getTreeItem(element: WskEntity): Promise<vscode.TreeItem> {

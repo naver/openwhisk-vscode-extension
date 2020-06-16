@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import { resolve } from 'path';
-const BASE_PATH = resolve(__dirname, '..', '..', 'resource', 'template', 'actioncode');
+import { RESOURCE_PATH } from './path';
+const BASE_PATH = resolve(RESOURCE_PATH, 'template/actioncode');
 
 export class Runtime {
     public static readonly NODEJS = 'nodejs';

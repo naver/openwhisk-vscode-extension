@@ -4,7 +4,7 @@ import { encodeActionUri, encodeActivationUri } from './wskContent';
 import { AuthInfo } from './authentication';
 import { URL } from 'url';
 import * as path from 'path';
-import * as appRoot from 'app-root-path';
+import { RESOURCE_PATH } from './constant/path';
 
 export class WskEntity extends vscode.TreeItem {
     contextValue = 'wskEntity';
@@ -16,8 +16,8 @@ export class WskEndpoint extends WskEntity {
     constructor(public readonly label: string, public readonly apihost: string) {
         super(label, vscode.TreeItemCollapsibleState.Expanded);
         super.iconPath = {
-            light: appRoot.resolve('resource/light/endpoint.svg'),
-            dark: appRoot.resolve('resource/dark/endpoint.svg'),
+            light: path.resolve(RESOURCE_PATH, 'light/endpoint.svg'),
+            dark: path.resolve(RESOURCE_PATH, 'dark/endpoint.svg'),
         };
     }
 }
@@ -118,8 +118,8 @@ export class WskNamespace extends WskEntity {
     ) {
         super(label, vscode.TreeItemCollapsibleState.Expanded);
         this.iconPath = {
-            light: appRoot.resolve('resource/light/namespace.svg'),
-            dark: appRoot.resolve('resource/dark/namespace.svg'),
+            light: path.resolve(RESOURCE_PATH, 'light/namespace.svg'),
+            dark: path.resolve(RESOURCE_PATH, 'dark/namespace.svg'),
         };
     }
 }
@@ -160,8 +160,8 @@ export class WskTrigger extends WskEntity {
     ) {
         super(label, vscode.TreeItemCollapsibleState.None);
         super.iconPath = {
-            light: appRoot.resolve('resource/light/trigger.svg'),
-            dark: appRoot.resolve('resource/dark/trigger.svg'),
+            light: path.resolve(RESOURCE_PATH, 'light/trigger.svg'),
+            dark: path.resolve(RESOURCE_PATH, 'dark/trigger.svg'),
         };
     }
 }
@@ -177,8 +177,8 @@ export class WskPackage extends WskEntity {
     ) {
         super(label, vscode.TreeItemCollapsibleState.Collapsed);
         this.iconPath = {
-            light: appRoot.resolve('resource/light/package.svg'),
-            dark: appRoot.resolve('resource/dark/package.svg'),
+            light: path.resolve(RESOURCE_PATH, 'light/package.svg'),
+            dark: path.resolve(RESOURCE_PATH, 'dark/package.svg'),
         };
     }
 

@@ -22,6 +22,7 @@ import * as commandExists from 'command-exists';
 
 import { StorageManager } from './storage';
 import { updateStatesByLocalWskPropFile } from './entityExplorer';
+import { RESOURCE_PATH } from './constant/path';
 
 enum WskDeployCommands {
     DEPLOY,
@@ -92,19 +93,19 @@ class WskDeployCommand extends WskDeployEntity {
     private getIconPath(wskDeployCommand: WskDeployCommands): { light: string; dark: string } {
         if (wskDeployCommand === WskDeployCommands.UNDEPLOY) {
             return {
-                light: path.join(__filename, '..', '..', 'resource', 'light', 'undeploy.svg'),
-                dark: path.join(__filename, '..', '..', 'resource', 'dark', 'undeploy.svg'),
+                light: path.join(RESOURCE_PATH, 'light', 'undeploy.svg'),
+                dark: path.join(RESOURCE_PATH, 'dark', 'undeploy.svg'),
             };
         }
         if (wskDeployCommand === WskDeployCommands.SYNC) {
             return {
-                light: path.join(__filename, '..', '..', 'resource', 'light', 'sync.svg'),
-                dark: path.join(__filename, '..', '..', 'resource', 'dark', 'sync.svg'),
+                light: path.join(RESOURCE_PATH, 'light', 'sync.svg'),
+                dark: path.join(RESOURCE_PATH, 'dark', 'sync.svg'),
             };
         }
         return {
-            light: path.join(__filename, '..', '..', 'resource', 'light', 'deploy.svg'),
-            dark: path.join(__filename, '..', '..', 'resource', 'dark', 'deploy.svg'),
+            light: path.join(RESOURCE_PATH, 'light', 'deploy.svg'),
+            dark: path.join(RESOURCE_PATH, 'dark', 'deploy.svg'),
         };
     }
 }
@@ -122,8 +123,8 @@ class WskDeployManifest extends WskDeployEntity {
             this.auth = auth;
         }
         super.iconPath = {
-            light: path.join(__filename, '..', '..', 'resource', 'light', 'manifest.svg'),
-            dark: path.join(__filename, '..', '..', 'resource', 'dark', 'manifest.svg'),
+            light: path.join(RESOURCE_PATH, 'light', 'manifest.svg'),
+            dark: path.join(RESOURCE_PATH, 'dark', 'manifest.svg'),
         };
     }
 
@@ -333,7 +334,7 @@ export class WskDeployManifestProvider implements vscode.TreeDataProvider<WskDep
 
     refresh(): void {
         this._manifests = [];
-        this._onDidChangeTreeData.fire();
+        this._onDidChangeTreeData.fire(undefined);
     }
 
     async getChildren(element?: WskDeployEntity): Promise<WskDeployEntity[]> {
