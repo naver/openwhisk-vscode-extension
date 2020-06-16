@@ -28,9 +28,13 @@ async function main() {
 
         // Download VS Code, unzip it and run the integration test
         await runTests({
-          extensionDevelopmentPath,
-          extensionTestsPath,
-          launchArgs: ['--disable-extensions']
+            extensionDevelopmentPath,
+            extensionTestsPath,
+            /**
+             * The `--disable-extensions` option is for disabling other extensions while debugging.
+             * https://code.visualstudio.com/api/working-with-extensions/testing-extension#disabling-other-extensions-while-debugging
+             */
+            launchArgs: ['--disable-extensions'],
         });
     } catch (err) {
         console.error('Failed to run tests');
