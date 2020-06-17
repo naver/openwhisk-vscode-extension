@@ -41,3 +41,38 @@
 .button:hover, .button:active {
     background: var(--vscode-button-hoverBackground);
 }
+.input {
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 200px;
+    padding: 5px;
+    font-size: 13px;
+    color: var(--vscode-input-foreground);
+    background: var(--vscode-input-background);
+    border: 1px solid var(--vscode-input-border);
+}
+.metadata-item {
+    padding-top: 12px;
+    padding-bottom: 14px;
+    font-size: 13px;
+}
+.metadata-item-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+.metadata-item-description {
+    margin-bottom: 5px;
+}
+.metadata-item-control {
+    margin-top: 10px;
+}
+.metadata-footer {
+    margin-bottom: 20px;
+}
+.limits-section {
+    display: none;
+}
+.has-limits .limits-section {
+    display: block;
+}

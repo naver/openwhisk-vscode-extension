@@ -30,11 +30,15 @@ export async function editPackageMetadata(
     const annotations = convertKeyValToObj(remotePackage.annotations || []);
 
     const updatePackageMetadata = async (params: object, annotations: object): Promise<void> => {
-        await pkg.updateRemotePackage({
-            parameters: convertObjToKeyVal(params),
-            annotations: convertObjToKeyVal(annotations),
-        });
-        vscode.window.showInformationMessage('The package is updated succesfully.');
+        try {
+            await pkg.updateRemotePackage({
+                parameters: convertObjToKeyVal(params),
+                annotations: convertObjToKeyVal(annotations),
+            });
+            vscode.window.showInformationMessage('The package is updated succesfully.');
+        } catch (e) {
+            vscode.window.showErrorMessage(`Failed to update the package (${e.message})`);
+        }
     };
     await openMetadatEditor(
         'editPackageMetadata',
@@ -42,6 +46,7 @@ export async function editPackageMetadata(
         context,
         parameters,
         annotations,
+        undefined,
         updatePackageMetadata
     );
 }
