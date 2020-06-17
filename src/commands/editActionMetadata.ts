@@ -18,6 +18,7 @@ import * as vscode from 'vscode';
 import { WskAction } from '../wskEntity';
 import { convertKeyValToObj } from '../common';
 import { openMetadatEditor } from './common/openMetadataEditor';
+import { Limits } from 'openwhisk';
 
 export async function editActionMetadata(
     action: WskAction,
@@ -26,13 +27,22 @@ export async function editActionMetadata(
     const a = await action.getRemoteAction();
     const parameters = convertKeyValToObj(a.parameters || []);
     const annotations = convertKeyValToObj(a.annotations || []);
-    const updateActionMetadata = async (params: object, annotations: object): Promise<void> => {
-        await action.client.actions.update({
-            name: action.getFullName(),
-            params: params,
-            annotations: annotations,
-        });
-        vscode.window.showInformationMessage('The action is updated succesfully.');
+    const updateActionMetadata = async (
+        params: object,
+        annotations: object,
+        limits: Limits | undefined
+    ): Promise<void> => {
+        try {
+            await action.client.actions.update({
+                name: action.getFullName(),
+                params: params,
+                annotations: annotations,
+                limits: limits,
+            });
+            vscode.window.showInformationMessage('The action is updated succesfully.');
+        } catch (e) {
+            vscode.window.showErrorMessage(`Failed to update the action (${e.message})`);
+        }
     };
 
     await openMetadatEditor(
@@ -41,6 +51,7 @@ export async function editActionMetadata(
         context,
         parameters,
         annotations,
+        a.limits,
         updateActionMetadata
     );
 }

@@ -17,6 +17,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { WEBVIEW_TEMPLATE_PATH } from '../../constant/path';
+import { Limits } from 'openwhisk';
 
 export async function openMetadatEditor(
     viewType: string,
@@ -24,7 +25,8 @@ export async function openMetadatEditor(
     context: vscode.ExtensionContext,
     parameters: Record<string, any>,
     annotations: Record<string, any>,
-    update: (parameter: object, annotation: object) => Promise<void>
+    limits: Limits | undefined,
+    update: (parameter: object, annotation: object, limits: Limits | undefined) => Promise<void>
 ): Promise<void> {
     const panel = vscode.window.createWebviewPanel(viewType, tabTitle, vscode.ViewColumn.One, {
         enableScripts: true,
@@ -41,9 +43,17 @@ export async function openMetadatEditor(
         path.resolve(WEBVIEW_TEMPLATE_PATH, 'metadataEditor.html'),
         'utf-8'
     );
+
+    // set container className
+    let className = '';
+    if (limits) {
+        className += 'has-limits';
+    }
+
     panel.webview.html = html
         .replace(/{{nodeModulePath}}/gi, nodeModulePath.toString())
         .replace(/{{webviewTemplatePath}}/gi, webviewTemplatePath.toString())
+        .replace(/{{className}}/gi, className)
         .replace(/{{title}}/gi, tabTitle);
 
     // add message litener
@@ -53,9 +63,14 @@ export async function openMetadatEditor(
                 command: 'setEditor',
                 parameters: JSON.stringify(parameters),
                 annotations: JSON.stringify(annotations),
+                limits: limits,
             });
         } else if (message.command === 'update') {
-            await update(JSON.parse(message.parameters), JSON.parse(message.annotations));
+            await update(
+                JSON.parse(message.parameters),
+                JSON.parse(message.annotations),
+                message.limits
+            );
         }
     });
 }
