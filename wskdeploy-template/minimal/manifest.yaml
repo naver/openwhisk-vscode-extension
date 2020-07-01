@@ -21,8 +21,8 @@ packages:
     license: Apache-2.0
     actions:
       hello_world:
-        function: src/hello.js
-        runtime: nodejs
+        function: src/index.js
+        runtime: nodejs:default
         inputs:
           name: string
           place: string
