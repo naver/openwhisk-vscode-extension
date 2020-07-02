@@ -24,6 +24,7 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
+				"${workspaceFolder}/test-fixtures",
 				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
@@ -31,7 +32,10 @@
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}"
+			"env": { 
+				"VSCODE_TEST_MODE": "true"
+			},
+			"preLaunchTask": "npm: pretest"
 		}
 	]
 }

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 import { WSKDEPLOY_TEMPLATE_PATH } from './path';
+import * as path from 'path';
 
 const MinimalTemplate = {
-    root: WSKDEPLOY_TEMPLATE_PATH,
+    root: path.join(WSKDEPLOY_TEMPLATE_PATH, 'minimal'),
     manifest: 'manifest.yaml',
     sourceDir: 'src',
     action: 'src/hello.js',
