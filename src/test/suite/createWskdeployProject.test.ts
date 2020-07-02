@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { resolve } from 'path';
 import { existsSync, writeFileSync } from 'fs';
 import { afterEach } from 'mocha';
 import * as rimraf from 'rimraf';
 import { createWskdeployProject } from '../../commands/createWskdeployProject';
+import { expect } from 'chai';
 
 import sinon = require('sinon');
 import { TEST_FIXTURES_PATH } from '../../constant/path';
@@ -27,17 +27,17 @@ import { TEST_FIXTURES_PATH } from '../../constant/path';
 const MANIFESTFILE_PATH = resolve(TEST_FIXTURES_PATH, 'manifest.yaml');
 const SRC_DIR_PATH = resolve(TEST_FIXTURES_PATH, 'src');
 
-function timeout(ms) {
+const timeout = (ms: number): Thenable<void> => {
     return new Promise((resolve) => setTimeout(resolve, ms));
-}
+};
 
-suite('templateGenerator.createWskdeployProject', async () => {
+suite('templateGenerator.createWskdeployProject', async function () {
     test('Create wskdeploy project files', async () => {
         const fakeConfirm = sinon.fake.returns(Promise.resolve({ action: 'confirm' }));
         sinon.replace(vscode.window, 'showInformationMessage', fakeConfirm);
         await createWskdeployProject();
         await timeout(1000);
-        assert.ok(existsSync(MANIFESTFILE_PATH));
+        expect(existsSync(MANIFESTFILE_PATH)).to.be.true;
     });
 
     test('Show warning message if manifest file exists', async () => {
@@ -46,13 +46,11 @@ suite('templateGenerator.createWskdeployProject', async () => {
         await createWskdeployProject();
         // @ts-ignore
         const spyCall = vscode.window.showErrorMessage.getCall(0);
-        assert.ok(spyCall.args[0].includes('already exists'));
+        expect(spyCall.args[0].includes('already exists')).to.be.true;
     });
 
-    afterEach((done) => {
-        console.warn('aftereach');
+    afterEach(() => {
         rimraf.sync(SRC_DIR_PATH);
         rimraf.sync(MANIFESTFILE_PATH);
-        done();
     });
 });

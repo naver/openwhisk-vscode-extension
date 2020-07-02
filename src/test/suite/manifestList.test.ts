@@ -53,15 +53,11 @@ const initState = {
 
 suite('ManifestList.WskDeployManifestProvider.getChildren', () => {
     test('Test filter', async () => {
-
-        console.warn('3');
-
         const context = { globalState: new MockState(initState), subscriptions: [] };
         const provider = new WskDeployManifestProvider(
             (context as unknown) as vscode.ExtensionContext
         );
         const manifest = (await provider.getChildren())[0];
-
         assert.strictEqual(manifest.label, 'valid-manifest.yaml');
     });
 });
