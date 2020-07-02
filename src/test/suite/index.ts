@@ -21,12 +21,12 @@ export function run(): Promise<void> {
     // Create the mocha test
     const mocha = new Mocha({
         ui: 'tdd',
-        // reporter: 'mocha-jenkins-reporter',
-        // reporterOptions: {
-        //     junit_report_name: 'Tests',
-        //     junit_report_path: 'report.xml',
-        //     junit_report_stack: 1,
-        // },
+        reporter: 'mocha-jenkins-reporter',
+        reporterOptions: {
+            junit_report_name: 'Tests',
+            junit_report_path: 'report.xml',
+            junit_report_stack: 1,
+        },
     });
     mocha.useColors(true);
 
