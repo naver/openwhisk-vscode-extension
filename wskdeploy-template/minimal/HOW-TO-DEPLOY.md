@@ -1,19 +1,21 @@
-### About wskdeploy
-`wskdeploy` is a utility to help you describe and deploy any part of the OpenWhisk programming model using a Manifest file written in YAML. Use it to deploy all your OpenWhisk Packages, Actions, Triggers, and Rules using a single command!
+# What is wskdeploy
 
-### Downloading wskdeploy
+`wskdeploy` is a utility to help you deploy any part of the OpenWhisk programming model using a Manifest file written in YAML. Use it to deploy all your OpenWhisk Packages, Actions, Triggers, and Rules!
 
-Binaries of wskdeploy are available for download on the project's GitHub release page:
+## Downloading wskdeploy
+
+Binaries of wskdeploy are available for download on the project's GitHub release page.
 https://github.com/apache/openwhisk-wskdeploy/releases
 
-### Getting started (wskdeploy official document)
+## Getting started
 
+You can find various examples in the official documentation.
 https://github.com/apache/openwhisk-wskdeploy/blob/master/docs/programming_guide.md#getting-started
 
 
-## The "Hello World" sample wskdeploy project
+# The "Hello World" sample wskdeploy project
 
-### Files included
+## Files included
 
 The following files are included in the sample project by default:
 - manifest.yaml : Manifest file for wskdeploy
@@ -21,19 +23,19 @@ The following files are included in the sample project by default:
 - src/index.test.js : Test code for the action code
 - src/package.json : package.json for NPM
 
-### How to deploy the project
+## How to deploy the project
 
-You can run the deploy command from the wskdeploy manifests list in the VSCode sidebar. Or, run the following command in the terminal:
+You can run the deploy command from the wskdeploy manifests explorer in the VSCode sidebar or run the following command in the terminal:
 
 ```
 $ wskdeploy -m manifest.yaml
 ```
 
-#### Including dependencies
+### Including dependencies
 
-The sample project deploys only the content of the function code in the index.js file. But sometimes you need to add NPM dependencies or your own dependencies.
+The sample project deploys only the function code in the index.js file. But sometimes you need to add NPM or your dependencies.
 
-In this case, simply replace the target file with a directory path to compress and deploy all the files.
+In this case, simply use a directory path as a function endpoint to compress and deploy all the files.
 
 ```yaml
 packages:
@@ -54,15 +56,15 @@ $ cd src && npm install --production
 $ wskdeploy -m manifest.yaml
 ```
 
-### How to invoke the action
+## How to invoke the action
 
-You can invoke the action in the openwhisk explorer located in the activity bar. Or, you can invoke it with the following command:
+You can invoke the action in the openwhisk explorer located in the activity bar or invoke it with the following command:
 
 ```
 $ wsk action invoke hello_world_package/hello_world --blocking
 ```
 
-### Test action code in your local environment
+## Test action code in your local environment
 
 The jest dependency is included by default. So you can test with `npm run test` command.
 
