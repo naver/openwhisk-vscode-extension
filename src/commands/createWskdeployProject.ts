@@ -21,48 +21,57 @@ import * as path from 'path';
 import { TemplatePath } from '../constant/template';
 import { showConfirmMessage } from '../common';
 
-const template = TemplatePath.Minimal;
+function getTemplateFiles(dir: string): string[] {
+    const files = fs.readdirSync(dir, {
+        withFileTypes: true,
+    });
+    let fileList: string[] = [];
+    files.forEach((f) => {
+        if (f.isDirectory()) {
+            const files = getTemplateFiles(resolve(dir, f.name)).map((_f) =>
+                path.join('.', f.name, _f)
+            );
+            fileList = [...fileList, ...files];
+            return;
+        }
+        fileList.push(f.name);
+    });
+    return fileList;
+}
 
 export async function createWskdeployProject(): Promise<void> {
-    const templateAction = vscode.Uri.file(path.resolve(`${template.root}/${template.action}`));
-    const templateFile = vscode.Uri.file(path.resolve(`${template.root}/${template.manifest}`));
-
     if (!vscode.workspace.workspaceFolders) {
         vscode.window.showErrorMessage('Open a workspace first to create a wskdeploy project.');
         return;
     }
+    const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    const templateFiles = getTemplateFiles(TemplatePath.Minimal.root);
 
-    const confirmed = await showConfirmMessage(
-        `Are you sure you want to create wskdeploy project in your workspace?\n
-The following file will be created:
-- manifest.yaml
-- src/hello.js`,
-        'Create'
-    );
-    if (!confirmed) {
-        return;
-    }
-
-    const targetManifest = vscode.Uri.file(
-        resolve(vscode.workspace.workspaceFolders[0].uri.fsPath, template.manifest)
-    );
-    const targetAction = vscode.Uri.file(
-        resolve(vscode.workspace.workspaceFolders[0].uri.fsPath, template.action)
-    );
-
-    if (fs.existsSync(targetManifest.fsPath)) {
-        vscode.window.showErrorMessage(
-            'Failed to create a template file. The manifest.yaml file already exists.'
+    try {
+        const fileListString = templateFiles.map((f) => `    - ${f}`).join('\n');
+        const confirmed = await showConfirmMessage(
+            `Are you sure you want to create wskdeploy project in your workspace?\n
+    The following file will be created:
+${fileListString}`,
+            'Create'
         );
-        return;
-    }
-    if (fs.existsSync(targetAction.fsPath)) {
-        vscode.window.showErrorMessage(
-            `Failed to create a template file. The ${template.action} file already exists`
-        );
-        return;
-    }
+        if (!confirmed) {
+            return;
+        }
 
-    await vscode.workspace.fs.copy(templateAction, targetAction);
-    await vscode.workspace.fs.copy(templateFile, targetManifest);
+        templateFiles.forEach((f) => {
+            if (fs.existsSync(resolve(workspacePath, f))) {
+                throw new Error(`Failed to create a template file. The ${f} file already exists`);
+            }
+        });
+        templateFiles.forEach(async (f) => {
+            const templateFilePath = vscode.Uri.file(path.resolve(TemplatePath.Minimal.root, f));
+            const targetFilePath = vscode.Uri.file(path.resolve(workspacePath, f));
+            await vscode.workspace.fs.copy(templateFilePath, targetFilePath);
+        });
+    } catch (e) {
+        if (e instanceof Error) {
+            vscode.window.showErrorMessage(e.message);
+        }
+    }
 }

@@ -16,9 +16,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { WskDeployManifestProvider } from '../../manifestList';
-import { before, after } from 'mocha';
-import { resolve } from 'path';
-import * as fs from 'fs';
 
 class MockState implements vscode.Memento {
     public _content: { [key: string]: any } = {};
@@ -55,48 +52,12 @@ const initState = {
 };
 
 suite('ManifestList.WskDeployManifestProvider.getChildren', () => {
-    before(function () {
-        if (vscode.workspace.workspaceFolders) {
-            fs.writeFile(
-                resolve(vscode.workspace.workspaceFolders[0].uri.path, 'test0.yml'),
-                '',
-                (err) => {
-                    if (err) {
-                        throw err;
-                    }
-                }
-            );
-            fs.writeFile(
-                resolve(vscode.workspace.workspaceFolders[0].uri.path, 'test1.yml'),
-                `packages:
-  hello_world_package:
-  version: 1.0
-  license: Apache-2.0`,
-                (err) => {
-                    if (err) {
-                        throw err;
-                    }
-                }
-            );
-        } else {
-            this.skip();
-        }
-    });
-
     test('Test filter', async () => {
-        const context = { globalState: new MockState(initState) };
+        const context = { globalState: new MockState(initState), subscriptions: [] };
         const provider = new WskDeployManifestProvider(
             (context as unknown) as vscode.ExtensionContext
         );
         const manifest = (await provider.getChildren())[0];
-
-        assert.strictEqual(manifest.label, 'test1.yml');
-    });
-
-    after(() => {
-        if (vscode.workspace.workspaceFolders) {
-            fs.unlinkSync(resolve(vscode.workspace.workspaceFolders[0].uri.path, 'test0.yml'));
-            fs.unlinkSync(resolve(vscode.workspace.workspaceFolders[0].uri.path, 'test1.yml'));
-        }
+        assert.strictEqual(manifest.label, 'valid-manifest.yaml');
     });
 });

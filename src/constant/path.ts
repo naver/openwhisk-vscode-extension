@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 import * as path from 'path';
-const RESOURCE_PATH = path.resolve(__dirname, '..', 'resource');
-const WEBVIEW_TEMPLATE_PATH = path.resolve(__dirname, '..', 'webview-template');
-const WSKDEPLOY_TEMPLATE_PATH = path.resolve(__dirname, '..', 'wskdeploy-template/minimal');
+
+const EXTENSION_BASE_PATH = process.env.VSCODE_TEST_MODE
+    ? path.resolve(__dirname, '../../')
+    : path.resolve(__dirname, '../');
+
+const TEST_FIXTURES_PATH = path.resolve(EXTENSION_BASE_PATH, 'test-fixtures');
+
+const RESOURCE_PATH = path.resolve(EXTENSION_BASE_PATH, 'resource');
+const WEBVIEW_TEMPLATE_PATH = path.resolve(EXTENSION_BASE_PATH, 'webview-template');
+const WSKDEPLOY_TEMPLATE_PATH = path.resolve(EXTENSION_BASE_PATH, 'wskdeploy-template');
+
 export {
+    EXTENSION_BASE_PATH,
+    TEST_FIXTURES_PATH,
     RESOURCE_PATH,
     WEBVIEW_TEMPLATE_PATH,
     WSKDEPLOY_TEMPLATE_PATH,
-}
+};

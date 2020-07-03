@@ -13,48 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { resolve } from 'path';
 import { existsSync, writeFileSync } from 'fs';
-import { afterEach, before } from 'mocha';
+import { afterEach } from 'mocha';
+import * as rimraf from 'rimraf';
 import { createWskdeployProject } from '../../commands/createWskdeployProject';
-import { TemplatePath } from '../../constant/template';
+import { expect } from 'chai';
 
-const minimal = TemplatePath.Minimal;
-let targetManifest: vscode.Uri, targetAction: vscode.Uri, targetDirectory: vscode.Uri;
+import sinon = require('sinon');
+import { TEST_FIXTURES_PATH } from '../../constant/path';
 
-suite('templateGenerator.createWskdeployProject', () => {
-    test('Create project files and directory if there is no conflict', async () => {
+const MANIFESTFILE_PATH = resolve(TEST_FIXTURES_PATH, 'manifest.yaml');
+const SRC_DIR_PATH = resolve(TEST_FIXTURES_PATH, 'src');
+
+const timeout = (ms: number): Thenable<void> => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+suite('templateGenerator.createWskdeployProject', async function () {
+    test('Create wskdeploy project files', async () => {
+        const fakeConfirm = sinon.fake.returns(Promise.resolve({ action: 'confirm' }));
+        sinon.replace(vscode.window, 'showInformationMessage', fakeConfirm);
         await createWskdeployProject();
-        assert.ok(existsSync(targetAction.path));
-        assert.ok(existsSync(targetManifest.path));
+        await timeout(1000);
+        expect(existsSync(MANIFESTFILE_PATH)).to.be.true;
     });
 
-    test('Warn if filename conflicts', async () => {
-        writeFileSync(targetManifest.path, 'test');
+    test('Show warning message if manifest file exists', async () => {
+        writeFileSync(MANIFESTFILE_PATH, '');
+        sinon.spy(vscode.window, 'showErrorMessage');
         await createWskdeployProject();
-        assert.ok(existsSync(targetAction.path));
-    });
-
-    before(function () {
-        if (vscode.workspace.workspaceFolders) {
-            targetManifest = vscode.Uri.parse(
-                resolve(vscode.workspace.workspaceFolders[0].uri.path, minimal.manifest)
-            );
-            targetAction = vscode.Uri.parse(
-                resolve(vscode.workspace.workspaceFolders[0].uri.path, minimal.action)
-            );
-            targetDirectory = vscode.Uri.parse(
-                resolve(vscode.workspace.workspaceFolders[0].uri.path, minimal.sourceDir)
-            );
-        } else {
-            this.skip();
-        }
+        // @ts-ignore
+        const spyCall = vscode.window.showErrorMessage.getCall(0);
+        expect(spyCall.args[0].includes('already exists')).to.be.true;
     });
 
     afterEach(() => {
-        vscode.workspace.fs.delete(targetManifest);
-        vscode.workspace.fs.delete(targetDirectory, { recursive: true });
+        rimraf.sync(SRC_DIR_PATH);
+        rimraf.sync(MANIFESTFILE_PATH);
     });
 });
