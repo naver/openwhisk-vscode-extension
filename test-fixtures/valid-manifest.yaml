@@ -31,7 +31,9 @@ packages:
           outputs:
             greeting: string
             details: string
-  
+        hello_world: # Duplicate name is not valid, but allowed in manifest panel
+          function: src/index.js
+
       triggers:
         meetPerson:
           inputs:

@@ -399,7 +399,7 @@ export class WskDeployManifestProvider implements vscode.TreeDataProvider<WskDep
 
         try {
             const doc = fs.readFileSync(path, { encoding: 'utf8' });
-            const contents = yaml.safeLoad(doc);
+            const contents = yaml.safeLoad(doc, { json: true });
 
             if (contents === undefined) {
                 return false;
