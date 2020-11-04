@@ -70,3 +70,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+## Third-party Product Acknowledgement 
+
+Portions of this product include SVG files developed by the XEIcon project (https://github.com/xpressengine/XEIcon).
+ 
+ - Dark theme: https://github.com/naver/openwhisk-vscode-extension/tree/master/resource/dark
+ - Light theme: https://github.com/naver/openwhisk-vscode-extension/tree/master/resource/light
+
+Those files are distributed under the XEIcon license (https://github.com/xpressengine/XEIcon#license).   
